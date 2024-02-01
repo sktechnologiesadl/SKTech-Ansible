@@ -1,0 +1,37 @@
+# Importing the variables
+- include_vars: vars/main.yml
+- name: Create Installation Folder
+  file:
+    path: '/opt/maven'
+    state: directory
+- name: Check the zip file exists or not
+  stat:
+    path: '/opt/maven/apache-maven-3.9.6-bin.tar.gz'
+  register: zipfile
+- name: Download zip file
+  get_url:
+    url: https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+    dest: '/opt/maven/'
+  when: zipfile.stat.exists != True
+- name: unzip
+  unarchive:
+    src: '/opt/maven/apache-maven-3.9.6-bin.tar.gz'
+    dest: '/opt/maven/'
+    remote_src: yes
+  when: zipfile.stat.exists != True
+- name: Create a symlink
+  file:
+    src: '/opt/maven/apache-maven-3.9.6/bin/mvn'
+    dest: '/usr/bin/mvn'
+    state: link
+- name: Update the profile file
+  lineinfile:
+    path: '/etc/profile'
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+  - { line: 'M2_HOME="/opt/apache-maven-3.9.6"'}
+  - { line: 'PATH=$PATH:$M2_HOME/bin'}
+- name: Execute the source command
+  shell:
+    cmd: "source /etc/profile"

@@ -1,0 +1,46 @@
+---
+# Maven Installation Steps:
+# 01. Create Maven Home-Directory
+# 02. Download the installation file
+# 03. Untar the installation file
+# 04. Configuration
+#     a. create soft link
+#     b. set the ENV variables
+#     c. source command
+# Importing the variables
+- include_vars: vars/main.yml
+- name: Create Installation Folder
+  file:
+    path: '{{install_dir}}'
+    state: directory
+- name: Check the zip file exists or not
+  stat:
+    path: '{{install_dir}}/apache-maven-{{mvn_version}}-bin.tar.gz'
+  register: zipfile
+- name: Download zip file
+  get_url:
+    url: '{{zip_url}}'
+    dest: '{{install_dir}}'
+  when: zipfile.stat.exists != True
+- name: unzip
+  unarchive:
+    src: '{{install_dir}}/apache-maven-{{mvn_version}}-bin.tar.gz'
+    dest: '{{install_dir}}'
+    remote_src: yes
+  when: zipfile.stat.exists != True
+- name: Create a symlink
+  file:
+    src: '{{install_dir}}/apache-maven-{{mvn_version}}/bin/mvn'
+    dest: '/usr/bin/mvn'
+    state: link
+- name: Update the profile file
+  lineinfile:
+    path: '/etc/profile'
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+  - { line: 'M2_HOME="/opt/apache-maven-{{mvn_version}}"'}
+  - { line: 'PATH=$PATH:$M2_HOME/bin'}
+- name: Execute the source command
+  shell:
+    cmd: "source /etc/profile"
