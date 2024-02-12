@@ -1,0 +1,41 @@
+---
+- hosts: demo
+  become: yes
+  tasks:
+  - include_vars: basevars.yml
+  - name: Install the Java
+    yum:
+      name: '{{java_pkg}}'
+      state: present
+  - name: Create installation user 
+    user:
+      name: '{{install_user}}'
+      state: present
+      password: "{{password|password_hash('sha512')}}"
+  - name: Create a install directory
+    file:
+      path: '{{install_dir}}'
+      state: directory
+      mode: '0755'
+      owner: '{{install_user}}'
+      group: '{{install_user}}'
+  - name: Download installation files
+    get_url:
+      url: '{{sonar_url}}'
+      dest: '{{install_dir}}'
+      mode: '0755'
+      owner: '{{install_user}}'
+      group: '{{install_user}}'
+  - name: Exstract the zip files 
+    become_user: '{{install_user}}'
+    unarchive:
+      src: '{{install_dir}}/{{sonar_pkg}}.zip'
+      dest: '{{install_dir}}'
+      remote_src: yes
+  - name: Start the Sonar Services 
+    become_user: '{{install_user}}'
+    command: 'sh {{install_dir}}/{{sonar_pkg}}/bin/linux-x86-64/sonar.sh start'
+    register: output
+  - name: show the results
+    debug:
+      var: output.stdout
