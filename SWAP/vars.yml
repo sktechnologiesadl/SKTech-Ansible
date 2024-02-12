@@ -1,0 +1,3 @@
+---
+disk_name: '/dev/sdf'
+part_name: '{{disk_name}}1'
