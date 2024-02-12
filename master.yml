@@ -1,7 +1,0 @@
-# Installing the Maven 
----
-- hosts: demo
-  become: yes
-  roles:
-  -  redhat
-  #-  ubuntu
