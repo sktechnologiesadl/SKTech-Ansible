@@ -1,0 +1,8 @@
+java_version: 11
+java_pkg: java-{{java_version}}-amazon-corretto
+jenkins_version: 
+jenkins_pkg:
+jenkins_repo:
+install_user:
+jenkins_home: '/var/lib/jenkins'
+initial_admin_password: '{{jenkins_home}}/secrets/initialAdminPassword'

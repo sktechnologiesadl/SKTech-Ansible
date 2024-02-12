@@ -1,0 +1,31 @@
+---
+- hosts: demo
+  become: yes
+  tasks:
+  - include_vars: basevars.yml
+  - name: Install the Java
+    yum:
+      name: '{{java_pkg}}'
+      state: present
+  - name: Create and Configure Jenkins Repo
+    yum_repository:
+      name: Jenkins
+      description: Jenkins Repository
+      baseurl: 'https://pkg.jenkins.io/redhat-stable/' 
+      gpgkey: 'https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key'
+      file: jenkins
+      gpgcheck: yes
+      enabled: yes
+  - name: Install the Jenkins Software
+    yum:
+      name: jenkins
+      state: present
+  - name: Start the Jenkins Services
+    service: 
+      name: jenkins
+      state: started
+  - name: Display the token 
+    command: 'cat {{initial_admin_password}}'
+    register: output
+  - debug:
+      var: output.stdout
