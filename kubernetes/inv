@@ -1,0 +1,6 @@
+[both]
+13.201.34.186 ansible_user='ec2-user' ansible_password='sktech@7884'
+3.111.35.134  ansible_user='ec2-user' ansible_password='sktech@7884'
+
+[master]
+3.111.35.134 ansible_user='ec2-user' ansible_password='sktech@7884'

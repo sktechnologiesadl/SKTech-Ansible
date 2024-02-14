@@ -1,0 +1,6 @@
+---
+MASTER_IP: '172.31.47.78'
+username: 'kubeadmin'
+password: '{{username}}'
+working_dir: '/home/kubeadmin/.kube'
+Kube_Config_File: '/etc/kubernetes/admin.conf'

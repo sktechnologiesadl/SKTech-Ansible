@@ -1,0 +1,8 @@
+- hosts: both
+  become: yes
+  tasks:
+  - include_vars: vars/basevars.yml
+  - name: Pre-requisites
+    include_tasks: tasks/prerequisites.yml
+  - name: Repo Configuration and Installations
+    include_tasks: tasks/repo.yml

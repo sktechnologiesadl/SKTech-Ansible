@@ -1,0 +1,24 @@
+---
+- name: Configure K8S repo
+  yum_repository:
+    name: Kubernetes
+    description: Kubernetes-Repo
+    enabled: yes
+    gpgcheck: yes
+    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    gpgkey: 
+    -  https://packages.cloud.google.com/yum/doc/yum-key.gpg
+    - https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+- name: Install Kube-Softwares
+  yum:
+    name: '{{item}}'
+    state: present
+  with_items:
+    - 'kubelet'
+    - 'kubectl'
+    - 'kubeadm'
+- name: Start the Kubelet Services
+  service:
+    name: kubelet
+    state: started
+    enabled: true
