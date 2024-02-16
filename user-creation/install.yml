@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - include_vars: vars.yml
+  - name: Create an user
+    user:
+      name: '{{item}}'
+      state: present
+      comment: 'this is app user'
+      password: "{{password|password_hash('sha512')}}"
+    with_items:
+    - '{{username}}'
