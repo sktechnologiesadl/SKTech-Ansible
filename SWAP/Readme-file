@@ -10,5 +10,5 @@ step03: Attach the Volume to desired Ec2-Instance
 Phase-II:
 --------
 step01: Clone the repo and move into SWAP folder
-step02: Replace the new volume name in the vars/basevars.yml file 
+step02: Replace the new volume name in the vars.yml file 
 step03: execute the "swap.yml" file
