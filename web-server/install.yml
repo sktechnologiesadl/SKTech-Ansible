@@ -24,4 +24,3 @@
     service:
       name: '{{web_server}}'
       state: restarted
-      enabled: true
