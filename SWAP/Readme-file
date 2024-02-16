@@ -1,0 +1,14 @@
+How to Configure SWAP memory on Ec2-Instance
+Phase-I  -- Create Volume and Attach 
+Phase-II -- Create and Enable SWAP
+Phase-I:
+--------
+step01: Findout the EC2-Instance AZ(AvailabilityZone)
+Note: AZ should be same for both Ec2-Instance and Volume 
+step02: Create a Volume with 3/4 GB size and select AZ (this should be same AZ of Ec2-Instance) 
+step03: Attach the Volume to desired Ec2-Instance
+Phase-II:
+--------
+step01: Clone the repo and move into SWAP folder
+step02: Replace the new volume name in the vars.yml file 
+step03: execute the "swap.yml" file

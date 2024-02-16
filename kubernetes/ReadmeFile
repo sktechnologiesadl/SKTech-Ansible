@@ -1,0 +1,42 @@
+step01: Clone the kubernetes installation repo files
+    > git clone https://github.com/sktechnologiesadl/SKTech-Ansible.git
+step02: Create 2 servers 
+    server1-- Master        (t2.medium)
+    server2-- workernode    (t2.micro)
+step04: Enable the without .pem file login on both servers
+    https://youtu.be/zsMJqniVDII?si=2e7wzSNPB92VJvcJ
+step03: From ansible server make the password less ssh connection to these 2 servers 
+    login into Ansible server as ec2-user
+    ssh-keygen
+    [click next next next...]
+ To Master Server:
+    ssh-copy-id ec2-user@Master_IP
+ To Workernode:
+    ssh-copy-id ec2-user@Workernode_IP
+    
+step04: Create the inventory file in the following format
+[both]
+13.201.34.186 ansible_user='ec2-user' ansible_password='ec2-password'
+3.111.35.134  ansible_user='ec2-user' ansible_password='ec2-password'
+
+[master]
+3.111.35.134 ansible_user='ec2-user' ansible_password='ec2-password'
+
+First execute install.yml and later master.yml
+step05: Now we are ready to execute the playbooks
+ansible-playbook -i inv install.yml --syntax-check 
+ansible-playbook -i inv install.yml --check
+ansible-playbook -i inv install.yml 
+[incase if you face any error read the error message properly and try to sort it out accordingly]
+ansible-playbook -i inv master.yml --syntax-check 
+ansible-playbook -i inv master.yml --check
+ansible-playbook -i inv master.yml 
+
+step06: Login into Master server 
+        switch to "kubeadmin" user 
+        kubectl create -f  https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml
+
+step07: Login into Workernode
+        execute the Token-Join command
+step08: Goto the Master then confirm whether node added properly or not
+        $ kubectl get nodes
