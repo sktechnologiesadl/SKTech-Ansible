@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - include_vars: vars.yml
+  - name: Install Web Server
+    yum:
+      name: '{{web_server}}'
+      state: present
+  - name: Start the Services
+    service:
+      name: '{{web_server}}'
+      state: started
+      enabled: true
+  - name: Configure the index.html file
+    get_url:
+      url: '{{html_url}}'
+      dest: '{{web_home}}/html/index.html'
+  - name: Doenload the Image
+    get_url:
+      url: '{{image_url}}'
+      dest: '{{web_home}}/html/SKTech.jpg'
+  - name: Restart the Services
+    service:
+      name: '{{web_server}}'
+      state: restarted
+      enabled: true
