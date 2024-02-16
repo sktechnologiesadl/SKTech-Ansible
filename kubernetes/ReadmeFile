@@ -22,6 +22,7 @@ step04: Create the inventory file in the following format
 [master]
 3.111.35.134 ansible_user='ec2-user' ansible_password='ec2-password'
 
+First execute install.yml and later master.yml
 step05: Now we are ready to execute the playbooks
 ansible-playbook -i inv install.yml --syntax-check 
 ansible-playbook -i inv install.yml --check
@@ -37,3 +38,5 @@ step06: Login into Master server
 
 step07: Login into Workernode
         execute the Token-Join command
+step08: Goto the Master then confirm whether node added properly or not
+        $ kubectl get nodes
