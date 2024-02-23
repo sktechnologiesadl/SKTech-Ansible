@@ -1,1 +1,1 @@
-Welcome to SKTechnologies
+Welcome to SKTechnologies Linux and DevOps
