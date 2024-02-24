@@ -5,4 +5,4 @@ SKTechnologies Gorantla
 #349 Old SBI Street
 
 9441340859 9494814378
-
+Sri Sathya Sai District
